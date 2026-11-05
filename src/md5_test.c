@@ -1,5 +1,10 @@
 #include <stdio.h>
 #include <string.h>
+
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 #include "md5_cpu.h"
 
 static int check(const char *input, const char *expected_hex)
@@ -16,6 +21,12 @@ static int check(const char *input, const char *expected_hex)
 int main(void)
 {
     int ok = 1;
+
+#ifdef _WIN32
+    SetConsoleOutputCP(CP_UTF8);
+    SetConsoleCP(CP_UTF8);
+#endif
+
     ok &= check("", "d41d8cd98f00b204e9800998ecf8427e");
     ok &= check("abc", "900150983cd24fb0d6963f7d28e17f72");
     ok &= check("message digest", "f96b697d7cb7938d525a2f31aaf161d0");

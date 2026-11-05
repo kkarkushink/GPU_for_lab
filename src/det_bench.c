@@ -3,6 +3,10 @@
 #include <time.h>
 #include <math.h>
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 #include "determinant_cpu.h"
 #include "determinant_gpu.h"
 #include "matrix_util.h"
@@ -17,6 +21,11 @@ int main(void)
     char *kernel_src;
     FILE *csv;
     int i;
+
+#ifdef _WIN32
+    SetConsoleOutputCP(CP_UTF8);
+    SetConsoleCP(CP_UTF8);
+#endif
 
     if (!cl_env_init(&env)) {
         fprintf(stderr, "Не удалось инициализировать OpenCL\n");

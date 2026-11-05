@@ -3,6 +3,10 @@
 #include <string.h>
 #include <time.h>
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 #include "md5_cpu.h"
 #include "bruteforce_cpu.h"
 #include "bruteforce_gpu.h"
@@ -30,6 +34,11 @@ int main(int argc, char **argv)
     int pw_len;
     uint64_t space, idx, found;
     clock_t t0, t1;
+
+#ifdef _WIN32
+    SetConsoleOutputCP(CP_UTF8);
+    SetConsoleCP(CP_UTF8);
+#endif
 
     if (argc > 1) {
         strncpy(password, argv[1], sizeof(password) - 1);

@@ -2,6 +2,10 @@
 #include <stdlib.h>
 #include <time.h>
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 #include "determinant_cpu.h"
 #include "determinant_gpu.h"
 #include "matrix_util.h"
@@ -15,6 +19,11 @@ int main(int argc, char **argv)
     double *a0, *a_cpu, *a_gpu;
     double det_cpu, det_gpu;
     clock_t t0, t1;
+
+#ifdef _WIN32
+    SetConsoleOutputCP(CP_UTF8);
+    SetConsoleCP(CP_UTF8);
+#endif
 
     if (argc > 1) {
         n = atoi(argv[1]);
