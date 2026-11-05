@@ -9,15 +9,25 @@
 
 int main(int argc, char **argv)
 {
-    int n = (argc > 1) ? atoi(argv[1]) : 8;
+    int n;
     CLEnv env;
     char *kernel_src;
     double *a0, *a_cpu, *a_gpu;
     double det_cpu, det_gpu;
     clock_t t0, t1;
 
+    if (argc > 1) {
+        n = atoi(argv[1]);
+    } else {
+        char line[64];
+        printf("Введите размер матрицы N (например, 100): ");
+        if (!fgets(line, sizeof(line), stdin))
+            return 1;
+        n = atoi(line);
+    }
+
     if (n < 2) {
-        printf("Использование: det_main.exe [размер матрицы N]\n");
+        printf("Размер матрицы должен быть не меньше 2.\n");
         return 1;
     }
 

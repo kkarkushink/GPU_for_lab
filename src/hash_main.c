@@ -35,9 +35,26 @@ int main(int argc, char **argv)
         strncpy(password, argv[1], sizeof(password) - 1);
         password[sizeof(password) - 1] = '\0';
     } else {
-        strcpy(password, "cat");
+        printf("Введите пароль строчными латинскими буквами (до 6 букв, например cat): ");
+        if (!fgets(password, sizeof(password), stdin))
+            return 1;
+        password[strcspn(password, "\r\n")] = '\0';
     }
     pw_len = (int)strlen(password);
+
+    if (pw_len == 0 || pw_len > 6) {
+        printf("Длина пароля должна быть от 1 до 6 букв (иначе перебор на CPU займёт слишком долго).\n");
+        return 1;
+    }
+    {
+        int i;
+        for (i = 0; i < pw_len; i++) {
+            if (password[i] < 'a' || password[i] > 'z') {
+                printf("Пароль должен состоять только из строчных латинских букв a-z.\n");
+                return 1;
+            }
+        }
+    }
 
     md5((const unsigned char *)password, (size_t)pw_len, digest);
     md5_to_hex(digest, hex);
